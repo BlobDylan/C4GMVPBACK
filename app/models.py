@@ -10,6 +10,7 @@ class User(db.Model):
     phone_number = db.Column(db.String(20))
     password_hash = db.Column(db.String(128), nullable=False)
     token_version = db.Column(db.Integer, default=0)
+    permission_type = db.Column(db.String(20), nullable=False, default="user")
 
     registrations = db.relationship(
         "Registration", back_populates="user", passive_deletes=True

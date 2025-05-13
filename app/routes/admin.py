@@ -1,14 +1,19 @@
 from flask import Blueprint, request, jsonify
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from datetime import datetime
-from app.models import Event
+from app.models import Event, User
 from app import db
+from app.utils.decorators import (
+    admin_required,
+    super_admin_required,
+)
 
 bp = Blueprint("admin", __name__)
 
 
 @bp.route("/admin/new", methods=["POST"])
 @jwt_required()
+@admin_required
 def create_event():
     data = request.get_json()
     required_fields = ["title", "description", "date", "location", "spotsAvailable"]
@@ -43,8 +48,11 @@ def create_event():
                 "event": {
                     "id": event.id,
                     "title": event.title,
+                    "description": event.description,
                     "date": event.date.isoformat(),
                     "location": event.location,
+                    "status": event.status,
+                    "spotsAvailable": event.spotsAvailable,
                 },
             }
         ),
@@ -54,6 +62,7 @@ def create_event():
 
 @bp.route("/admin/edit/<int:event_id>", methods=["PUT"])
 @jwt_required()
+@admin_required
 def update_event(event_id):
     event = Event.query.get(event_id)
     if not event:
@@ -88,6 +97,7 @@ def update_event(event_id):
 
 @bp.route("/admin/delete/<int:event_id>", methods=["DELETE"])
 @jwt_required()
+@admin_required
 def delete_event(event_id):
     event = Event.query.get(event_id)
     if not event:
@@ -99,7 +109,7 @@ def delete_event(event_id):
     except Exception as e:
         db.session.rollback()
         return (
-            jsonify({"message": "Failed to delete event"}),
+            jsonify({"message": "Failed to delete event", "error": str(e)}),
             500,
         )
 
@@ -108,6 +118,7 @@ def delete_event(event_id):
 
 @bp.route("/admin/approve/<int:event_id>", methods=["PUT"])
 @jwt_required()
+@admin_required
 def approve_event(event_id):
     event = Event.query.get(event_id)
     if not event:
@@ -126,7 +137,8 @@ def approve_event(event_id):
 
 @bp.route("/admin/unapprove/<int:event_id>", methods=["PUT"])
 @jwt_required()
-def unapprove_event(event_id):
+@admin_required
+def set_event_pending(event_id):
     event = Event.query.get(event_id)
     if not event:
         return jsonify({"message": "Event not found"}), 404
@@ -139,4 +151,44 @@ def unapprove_event(event_id):
         db.session.rollback()
         return jsonify({"message": str(e)}), 500
 
-    return jsonify({"message": "Event unapproved"}), 200
+    return jsonify({"message": "Event status set to pending"}), 200
+
+
+@bp.route("/admin/set-permission/<int:user_id_to_change>", methods=["PUT"])
+@jwt_required()
+@super_admin_required
+def set_user_permission(user_id_to_change):
+    data = request.get_json()
+    new_permission = data.get("permission_type")
+
+    if not new_permission or new_permission not in ["user", "admin", "super_admin"]:
+        return (
+            jsonify(
+                {
+                    "message": "Invalid permission type. Must be 'user', 'admin', or 'super_admin'."
+                }
+            ),
+            400,
+        )
+
+    target_user = User.query.get(user_id_to_change)
+    if not target_user:
+        return jsonify({"message": "Target user not found."}), 404
+
+    target_user.permission_type = new_permission
+    try:
+        db.session.commit()
+        return (
+            jsonify(
+                {
+                    "message": f"User '{target_user.email}' permission updated to '{new_permission}'."
+                }
+            ),
+            200,
+        )
+    except Exception as e:
+        db.session.rollback()
+        return (
+            jsonify({"message": "Failed to update user permission.", "error": str(e)}),
+            500,
+        )
