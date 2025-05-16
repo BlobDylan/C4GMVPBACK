@@ -21,6 +21,7 @@ def get_current_user():
                 "firstName": user.first_name,
                 "lastName": user.last_name,
                 "phoneNumber": user.phone_number,
+                "permissions": user.permission_type,
             }
         ),
         200,
