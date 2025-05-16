@@ -53,6 +53,7 @@ def login():
                     "email": user.email,
                     "firstName": user.first_name,
                     "lastName": user.last_name,
+                    "permissions": user.permission_type,
                 },
             }
         ),
