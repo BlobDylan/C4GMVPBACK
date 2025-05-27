@@ -41,11 +41,6 @@ def register_for_event(event_id):
     if Registration.query.filter_by(user_id=user_id, event_id=event_id).first():
         return jsonify({"message": "Already registered"}), 400
 
-    if event.spotsAvailable <= 0:
-        return jsonify({"message": "Event is full"}), 400
-
-    event.spotsAvailable -= 1
-
     registration = Registration(user_id=user_id, event_id=event_id)
     db.session.add(registration)
     db.session.commit()
@@ -67,9 +62,6 @@ def unregister_from_event(event_id):
     if not registration:
         return jsonify({"message": "Not registered"}), 404
 
-    event = registration.event
-    event.spotsAvailable += 1
-
     db.session.delete(registration)
     db.session.commit()
 
@@ -86,10 +78,15 @@ def get_my_events():
         {
             "id": reg.event.id,
             "title": reg.event.title,
-            "date": reg.event.date.isoformat(),
-            "location": reg.event.location,
             "description": reg.event.description,
+            "date": reg.event.date.isoformat(),
+            "channel": reg.event.channel,
+            "language": reg.event.language,
+            "location": reg.event.location,
             "status": reg.event.status,
+            "group_size": reg.event.group_size,
+            "num_instructors_needed": reg.event.num_instructors_needed,
+            "num_representatives_needed": reg.event.num_representatives_needed,
         }
         for reg in registrations
     ]
