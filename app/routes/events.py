@@ -15,9 +15,13 @@ def get_events():
             "title": event.title,
             "description": event.description,
             "date": event.date.isoformat(),
+            "channel": event.channel,
+            "language": event.language,
             "location": event.location,
             "status": event.status,
-            "spotsAvailable": event.spotsAvailable,
+            "group_size": event.group_size,
+            "num_instructors_needed": event.num_instructors_needed,
+            "num_representatives_needed": event.num_representatives_needed,
         }
         for event in events
     ]

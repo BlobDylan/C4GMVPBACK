@@ -16,7 +16,17 @@ bp = Blueprint("admin", __name__)
 @admin_required
 def create_event():
     data = request.get_json()
-    required_fields = ["title", "description", "date", "location", "spotsAvailable"]
+    required_fields = [
+        "title",
+        "description",
+        "date",
+        "channel",
+        "language",
+        "location",
+        "group_size",
+        "num_instructors_needed",
+        "num_representatives_needed",
+    ]
 
     if not all(field in data for field in required_fields):
         return jsonify({"message": "Missing required fields"}), 400
@@ -30,9 +40,13 @@ def create_event():
         title=data["title"],
         description=data["description"],
         date=event_date,
+        channel=data["channel"],
+        language=data["language"],
         location=data["location"],
+        group_size=data.get("group_size", 0),
+        num_instructors_needed=data.get("num_instructors_needed", 0),
+        num_representatives_needed=data.get("num_representatives_needed", 0),
         status="pending",
-        spotsAvailable=data["spotsAvailable"],
     )
     db.session.add(event)
     try:
@@ -50,9 +64,13 @@ def create_event():
                     "title": event.title,
                     "description": event.description,
                     "date": event.date.isoformat(),
+                    "channel": event.channel,
+                    "language": event.language,
                     "location": event.location,
                     "status": event.status,
-                    "spotsAvailable": event.spotsAvailable,
+                    "group_size": event.group_size,
+                    "num_instructors_needed": event.num_instructors_needed,
+                    "num_representatives_needed": event.num_representatives_needed,
                 },
             }
         ),
@@ -79,12 +97,20 @@ def update_event(event_id):
             event.date = datetime.fromisoformat(data["date"])
         except ValueError:
             return jsonify({"message": "Invalid date format"}), 400
+    if "channel" in data:
+        event.channel = data["channel"]
+    if "language" in data:
+        event.language = data["language"]
     if "location" in data:
         event.location = data["location"]
     if "status" in data:
         event.status = data["status"]
-    if "spotsAvailable" in data:
-        event.spotsAvailable = data["spotsAvailable"]
+    if "group_size" in data:
+        event.group_size = data["group_size"]
+    if "num_instructors_needed" in data:
+        event.num_instructors_needed = data["num_instructors_needed"]
+    if "num_representatives_needed" in data:
+        event.num_representatives_needed = data["num_representatives_needed"]
 
     try:
         db.session.commit()

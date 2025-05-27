@@ -13,7 +13,10 @@ class User(db.Model):
     permission_type = db.Column(db.String(20), nullable=False, default="user")
 
     registrations = db.relationship(
-        "Registration", back_populates="user", passive_deletes=True
+        "Registration",
+        back_populates="user",
+        cascade="all, delete-orphan",
+        passive_deletes=True,
     )
 
     def set_password(self, password):
@@ -28,12 +31,19 @@ class Event(db.Model):
     title = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(400), nullable=False)
     date = db.Column(db.DateTime, nullable=False)
+    channel = db.Column(db.String(50), nullable=False)
+    language = db.Column(db.String(50), nullable=False)
     location = db.Column(db.String(120), nullable=False)
     status = db.Column(db.String(20), nullable=False, default="pending")
-    spotsAvailable = db.Column(db.Integer, nullable=False, default=0)
+    group_size = db.Column(db.Integer, nullable=False, default=0)
+    num_instructors_needed = db.Column(db.Integer, nullable=False, default=0)
+    num_representatives_needed = db.Column(db.Integer, nullable=False, default=0)
 
     registrations = db.relationship(
-        "Registration", back_populates="event", passive_deletes=True
+        "Registration",
+        back_populates="event",
+        cascade="all, delete-orphan",
+        passive_deletes=True,
     )
 
 
