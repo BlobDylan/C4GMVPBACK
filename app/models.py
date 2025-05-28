@@ -11,6 +11,7 @@ class User(db.Model):
     password_hash = db.Column(db.String(128), nullable=False)
     token_version = db.Column(db.Integer, default=0)
     permission_type = db.Column(db.String(20), nullable=False, default="user")
+    preferredLanguages = db.Column(db.String(100), nullable=True)
 
     registrations = db.relationship(
         "Registration",

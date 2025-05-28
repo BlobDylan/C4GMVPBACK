@@ -1,0 +1,58 @@
+[
+  {
+    "title": "Protest in Hostages Square",
+    "description": "Join us for a peaceful protest in Hostages Square to raise awareness about the current situation.",
+    "date": "2025-05-28T09:00:00",
+    "channel": "Hostages Square",
+    "language": "Hebrew",
+    "location": "Hostages Square",
+    "group_size": 5,
+    "num_instructors_needed": 3,
+    "num_representatives_needed": 2,
+    "target_audience": "Universities",
+    "group_description": "A group of university students and faculty members who are passionate about social justice.",
+    "additional_notes": "Please bring your own materials."
+  },
+  {
+    "title": "American Donations Event",
+    "description": "A fundraising event to support our cause in the United States.",
+    "date": "2025-06-01T10:00:00",
+    "channel": "Donations",
+    "language": "Hebrew",
+    "location": "Offices",
+    "group_size": 10,
+    "num_instructors_needed": 2,
+    "num_representatives_needed": 1,
+    "target_audience": "Donors",
+    "group_description": "A group of philanthropists and supporters from the United States.",
+    "additional_notes": "Please RSVP by June 1st."
+  },
+  {
+    "title": "High School awareness meeting",
+    "description": "A meeting to discuss community issues and gather feedback.",
+    "date": "2025-05-29T18:00:00",
+    "channel": "Virtual",
+    "language": "English",
+    "location": "Zoom",
+    "group_size": 20,
+    "num_instructors_needed": 1,
+    "num_representatives_needed": 2,
+    "target_audience": "High Schools",
+    "group_description": "A diverse group of high school students and teachers interested in community engagement.",
+    "additional_notes": "Light refreshments will be provided."
+  },
+  {
+    "title": "Business Sector Meeting",
+    "description": "A meeting to discuss business sector issues and awareness.",
+    "date": "2025-05-29T18:00:00",
+    "channel": "Business Sector",
+    "language": "English",
+    "location": "Center",
+    "group_size": 20,
+    "num_instructors_needed": 1,
+    "num_representatives_needed": 2,
+    "target_audience": "Business Sector",
+    "group_description": "A group of business professionals and entrepreneurs focused on community development.",
+    "additional_notes": "Please bring your business cards."
+  }
+]

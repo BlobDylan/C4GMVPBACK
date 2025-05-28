@@ -7,7 +7,12 @@ from app.utils.decorators import (
     admin_required,
     super_admin_required,
 )
-from app.constants import CHANNEL_OPTIONS, LANGUAGE_OPTIONS, LOCATION_OPTIONS, TARGET_AUDIENCE_OPTIONS
+from app.constants import (
+    CHANNEL_OPTIONS,
+    LANGUAGE_OPTIONS,
+    LOCATION_OPTIONS,
+    TARGET_AUDIENCE_OPTIONS,
+)
 
 bp = Blueprint("admin", __name__)
 
@@ -43,9 +48,16 @@ def create_event():
         return jsonify({"message": "Invalid target audience option"}), 400
 
     # Validate numbers
-    for num_field in ["group_size", "num_instructors_needed", "num_representatives_needed"]:
+    for num_field in [
+        "group_size",
+        "num_instructors_needed",
+        "num_representatives_needed",
+    ]:
         if not isinstance(data[num_field], int) or data[num_field] < 0:
-            return jsonify({"message": f"{num_field} must be a non-negative integer"}), 400
+            return (
+                jsonify({"message": f"{num_field} must be a non-negative integer"}),
+                400,
+            )
 
     try:
         event_date = datetime.fromisoformat(data["date"])
