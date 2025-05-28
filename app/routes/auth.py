@@ -22,6 +22,9 @@ def signup():
         last_name=data["lastName"],
         email=data["email"],
         phone_number=data.get("phoneNumber"),
+        preferredLanguages=(
+            str(data["preferredLanguages"]) if "preferredLanguages" in data else ""
+        ),
     )
     user.set_password(data["password"])
 
