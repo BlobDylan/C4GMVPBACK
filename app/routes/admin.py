@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from datetime import datetime
-from app.models import Event, User
+from app.models import Event, User, Registration
 from app import db
 from app.utils.decorators import (
     admin_required,
@@ -54,6 +54,7 @@ def create_event():
 
     event = Event(
         title=data["title"],
+        description=data["description"],
         date=event_date,
         channel=data["channel"],
         language=data["language"],
@@ -133,6 +134,11 @@ def update_event(event_id):
         event.num_representatives_needed = data["num_representatives_needed"]
     if "group_description" in data:
         event.group_description = data["group_description"]
+    if "additional_notes" in data:
+        event.additional_notes = data["additional_notes"]
+    if "status" in data:
+        event.status = data["status"]
+    event.group_description = data["group_description"]
     if "additional_notes" in data:
         event.additional_notes = data["additional_notes"]
     if "status" in data:
