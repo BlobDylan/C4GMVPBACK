@@ -7,6 +7,7 @@ from app.utils.decorators import (
     admin_required,
     super_admin_required,
 )
+from app.constants import CHANNEL_OPTIONS, LANGUAGE_OPTIONS, LOCATION_OPTIONS, TARGET_AUDIENCE_OPTIONS
 
 bp = Blueprint("admin", __name__)
 
@@ -18,11 +19,11 @@ def create_event():
     data = request.get_json()
     required_fields = [
         "title",
-        "description",
         "date",
         "channel",
         "language",
         "location",
+        "target_audience",
         "group_size",
         "num_instructors_needed",
         "num_representatives_needed",
@@ -31,6 +32,21 @@ def create_event():
     if not all(field in data for field in required_fields):
         return jsonify({"message": "Missing required fields"}), 400
 
+    # Validate dropdowns
+    if data["channel"] not in CHANNEL_OPTIONS:
+        return jsonify({"message": "Invalid channel option"}), 400
+    if data["language"] not in LANGUAGE_OPTIONS:
+        return jsonify({"message": "Invalid language option"}), 400
+    if data["location"] not in LOCATION_OPTIONS:
+        return jsonify({"message": "Invalid location option"}), 400
+    if data["target_audience"] not in TARGET_AUDIENCE_OPTIONS:
+        return jsonify({"message": "Invalid target audience option"}), 400
+
+    # Validate numbers
+    for num_field in ["group_size", "num_instructors_needed", "num_representatives_needed"]:
+        if not isinstance(data[num_field], int) or data[num_field] < 0:
+            return jsonify({"message": f"{num_field} must be a non-negative integer"}), 400
+
     try:
         event_date = datetime.fromisoformat(data["date"])
     except (ValueError, KeyError):
@@ -38,14 +54,16 @@ def create_event():
 
     event = Event(
         title=data["title"],
-        description=data["description"],
         date=event_date,
         channel=data["channel"],
         language=data["language"],
         location=data["location"],
+        target_audience=data["target_audience"],
         group_size=data.get("group_size", 0),
         num_instructors_needed=data.get("num_instructors_needed", 0),
         num_representatives_needed=data.get("num_representatives_needed", 0),
+        group_description=data.get("group_description", ""),
+        additional_notes=data.get("additional_notes", ""),
         status="pending",
     )
     db.session.add(event)
@@ -62,15 +80,17 @@ def create_event():
                 "event": {
                     "id": event.id,
                     "title": event.title,
-                    "description": event.description,
                     "date": event.date.isoformat(),
                     "channel": event.channel,
                     "language": event.language,
                     "location": event.location,
+                    "target_audience": event.target_audience,
                     "status": event.status,
                     "group_size": event.group_size,
                     "num_instructors_needed": event.num_instructors_needed,
                     "num_representatives_needed": event.num_representatives_needed,
+                    "group_description": event.group_description,
+                    "additional_notes": event.additional_notes,
                 },
             }
         ),
@@ -90,8 +110,6 @@ def update_event(event_id):
 
     if "title" in data:
         event.title = data["title"]
-    if "description" in data:
-        event.description = data["description"]
     if "date" in data:
         try:
             event.date = datetime.fromisoformat(data["date"])
@@ -103,14 +121,22 @@ def update_event(event_id):
         event.language = data["language"]
     if "location" in data:
         event.location = data["location"]
-    if "status" in data:
-        event.status = data["status"]
+    if "target_audience" in data:
+        if data["target_audience"] not in TARGET_AUDIENCE_OPTIONS:
+            return jsonify({"message": "Invalid target audience option"}), 400
+        event.target_audience = data["target_audience"]
     if "group_size" in data:
         event.group_size = data["group_size"]
     if "num_instructors_needed" in data:
         event.num_instructors_needed = data["num_instructors_needed"]
     if "num_representatives_needed" in data:
         event.num_representatives_needed = data["num_representatives_needed"]
+    if "group_description" in data:
+        event.group_description = data["group_description"]
+    if "additional_notes" in data:
+        event.additional_notes = data["additional_notes"]
+    if "status" in data:
+        event.status = data["status"]
 
     try:
         db.session.commit()
