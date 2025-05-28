@@ -4,3 +4,5 @@ instance/
 .env
 *.db
 node_modules/
+package.json
+package-lock.json
