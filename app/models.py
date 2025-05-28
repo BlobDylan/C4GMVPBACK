@@ -38,6 +38,9 @@ class Event(db.Model):
     group_size = db.Column(db.Integer, nullable=False, default=0)
     num_instructors_needed = db.Column(db.Integer, nullable=False, default=0)
     num_representatives_needed = db.Column(db.Integer, nullable=False, default=0)
+    target_audience = db.Column(db.String(50), nullable=False)
+    group_description = db.Column(db.Text, nullable=True)
+    additional_notes = db.Column(db.Text, nullable=True)
 
     registrations = db.relationship(
         "Registration",

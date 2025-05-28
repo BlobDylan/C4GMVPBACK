@@ -22,6 +22,9 @@ def get_events():
             "group_size": event.group_size,
             "num_instructors_needed": event.num_instructors_needed,
             "num_representatives_needed": event.num_representatives_needed,
+            "target_audience": event.target_audience,
+            "group_description": event.group_description,
+            "additional_notes": event.additional_notes,
         }
         for event in events
     ]
