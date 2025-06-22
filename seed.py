@@ -2,14 +2,13 @@ import json
 import requests
 
 # === CONFIG ===
-BASE_URL = "http://localhost:5000"  # Change if your server runs elsewhere
+BASE_URL = "https://c4gmvpback.onrender.com"
 LOGIN_ENDPOINT = f"{BASE_URL}/login"
 CREATE_EVENT_ENDPOINT = f"{BASE_URL}/admin/new"
 
 SUPER_ADMIN_EMAIL = "superadmin@example.com"
 SUPER_ADMIN_PASSWORD = "123456"
 EVENTS_FILE = "example_events.json"
-
 
 # === LOGIN ===
 def get_access_token():
@@ -21,7 +20,6 @@ def get_access_token():
         raise Exception(f"Login failed: {response.json()}")
 
     return response.json()["access_token"]
-
 
 # === SEED EVENTS ===
 def seed_events(token):
@@ -38,7 +36,6 @@ def seed_events(token):
             print("  ✅ Created")
         else:
             print(f"  ❌ Failed: {response.status_code} - {response.text}")
-
 
 # === MAIN ===
 if __name__ == "__main__":
