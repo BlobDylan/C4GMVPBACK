@@ -77,6 +77,10 @@ def create_app():
     db.init_app(app)
     jwt.init_app(app)
 
+    @app.route("/")
+    def home():
+        return {"message": "API is up and running 🎉"}
+
     with app.app_context():
         from .models import User, Event, Registration
         from .routes import auth, user, admin, events
