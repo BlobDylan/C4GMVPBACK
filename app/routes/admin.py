@@ -24,6 +24,7 @@ def create_event():
     data = request.get_json()
     required_fields = [
         "title",
+        "description",
         "date",
         "channel",
         "language",
