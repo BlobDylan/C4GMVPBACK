@@ -262,3 +262,55 @@ def set_user_permission(user_id_to_change):
             jsonify({"message": "Failed to update user permission.", "error": str(e)}),
             500,
         )
+
+@bp.route("/admin/pending-registrations", methods=["GET"])
+@jwt_required()
+@admin_required
+def get_pending_registrations():
+    registrations = Registration.query.filter_by(status="pending").all()
+    registrations_list = [
+        {
+            "event_id": reg.event_id,
+            "event_title": reg.event.title,
+            "user_id": reg.user_id,
+            "user_email": reg.user.email,
+            "user_role": reg.user.role,
+            "registration_status": reg.status,
+        }
+        for reg in registrations
+    ]
+    return jsonify(registrations=registrations_list), 200
+
+@bp.route("/admin/approve-registration/<int:event_id>/<int:user_id>", methods=["PUT"])
+@jwt_required()
+@admin_required
+def approve_registration(event_id, user_id):
+    registration = Registration.query.filter_by(event_id=event_id, user_id=user_id).first()
+    if not registration:
+        return jsonify({"message": "Registration not found"}), 404
+
+    registration.status = "approved"
+    try:
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"message": str(e)}), 500
+
+    return jsonify({"message": "Registration approved"}), 200
+
+@bp.route("/admin/reject-registration/<int:event_id>/<int:user_id>", methods=["DELETE"])
+@jwt_required()
+@admin_required
+def reject_registration(event_id, user_id):
+    registration = Registration.query.filter_by(event_id=event_id, user_id=user_id).first()
+    if not registration:
+        return jsonify({"message": "Registration not found"}), 404
+
+    db.session.delete(registration)
+    try:
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"message": str(e)}), 500
+
+    return jsonify({"message": "Registration rejected"}), 200

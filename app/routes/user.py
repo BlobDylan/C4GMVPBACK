@@ -42,11 +42,14 @@ def register_for_event(event_id):
     if Registration.query.filter_by(user_id=user_id, event_id=event_id).first():
         return jsonify({"message": "Already registered"}), 400
 
-    registration = Registration(user_id=user_id, event_id=event_id)
+    user = User.query.get(user_id)
+    registration_status = "pending" if user.role == "Guide" else "approved"
+
+    registration = Registration(user_id=user_id, event_id=event_id, status=registration_status)
     db.session.add(registration)
     db.session.commit()
 
-    return jsonify({"message": "Registered successfully"}), 201
+    return jsonify({"message": "Registered successfully", "status": registration_status}), 201
 
 
 @bp.route("/events/<int:event_id>/unregister", methods=["DELETE"])
@@ -88,6 +91,7 @@ def get_my_events():
             "group_size": reg.event.group_size,
             "num_instructors_needed": reg.event.num_instructors_needed,
             "num_representatives_needed": reg.event.num_representatives_needed,
+            "registration_status": reg.status, 
         }
         for reg in registrations
     ]
