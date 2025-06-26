@@ -36,3 +36,11 @@ TARGET_AUDIENCE_OPTIONS = [
     "Army",
     "Donors",
 ]
+<<<<<<< HEAD
+=======
+
+ROLE_OPTIONS = [
+    "Family Representative",
+    "Guide",
+]
+>>>>>>> 2567e62635875ebdfa52a956ba371e02e2089f8c

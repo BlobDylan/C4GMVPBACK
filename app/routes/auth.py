@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from app.models import User
 from app import db
+from app.constants import ROLE_OPTIONS
 
 bp = Blueprint("auth", __name__)
 
@@ -9,7 +10,7 @@ bp = Blueprint("auth", __name__)
 @bp.route("/signup", methods=["POST"])
 def signup():
     data = request.get_json()
-    required_fields = ["firstName", "lastName", "email", "password"]
+    required_fields = ["firstName", "lastName", "email", "password", "role"]
 
     if not all(field in data for field in required_fields):
         return jsonify({"message": "Missing required fields"}), 400
@@ -17,6 +18,10 @@ def signup():
     if User.query.filter_by(email=data["email"]).first():
         return jsonify({"message": "Email already exists"}), 400
 
+    role = data.get("role")
+    if role and role not in ROLE_OPTIONS:
+        return jsonify({"message": "Invalid role"}), 400
+    
     user = User(
         first_name=data["firstName"],
         last_name=data["lastName"],
@@ -25,6 +30,10 @@ def signup():
         preferredLanguages=(
             str(data["preferredLanguages"]) if "preferredLanguages" in data else ""
         ),
+<<<<<<< HEAD
+=======
+        role=role,
+>>>>>>> 2567e62635875ebdfa52a956ba371e02e2089f8c
     )
     user.set_password(data["password"])
 
@@ -57,6 +66,7 @@ def login():
                     "firstName": user.first_name,
                     "lastName": user.last_name,
                     "permissions": user.permission_type,
+                    "role": user.role,
                 },
             }
         ),

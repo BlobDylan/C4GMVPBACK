@@ -12,6 +12,10 @@ class User(db.Model):
     token_version = db.Column(db.Integer, default=0)
     permission_type = db.Column(db.String(20), nullable=False, default="user")
     preferredLanguages = db.Column(db.String(100), nullable=True)
+<<<<<<< HEAD
+=======
+    role = db.Column(db.String(50), nullable=False, default="Family Representative")
+>>>>>>> 2567e62635875ebdfa52a956ba371e02e2089f8c
 
     registrations = db.relationship(
         "Registration",
@@ -59,6 +63,7 @@ class Registration(db.Model):
     event_id = db.Column(
         db.Integer, db.ForeignKey("event.id", ondelete="CASCADE"), primary_key=True
     )
-
+    status = db.Column(db.String(20), nullable=False, default="approved")
+    
     user = db.relationship("User", back_populates="registrations")
     event = db.relationship("Event", back_populates="registrations")

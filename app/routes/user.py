@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.models import User, Event, Registration
 from app import db
+from app.utils.autoapprove import should_autoapprove_event
 
 bp = Blueprint("user", __name__)
 
@@ -22,6 +23,7 @@ def get_current_user():
                 "lastName": user.last_name,
                 "phoneNumber": user.phone_number,
                 "permissions": user.permission_type,
+                "role": user.role,
             }
         ),
         200,
@@ -41,11 +43,23 @@ def register_for_event(event_id):
     if Registration.query.filter_by(user_id=user_id, event_id=event_id).first():
         return jsonify({"message": "Already registered"}), 400
 
-    registration = Registration(user_id=user_id, event_id=event_id)
+    user = User.query.get(user_id)
+    registration_status = "pending" if user.role == "Guide" else "approved"
+
+    registration = Registration(
+        user_id=user_id, event_id=event_id, status=registration_status
+    )
     db.session.add(registration)
+
+    if should_autoapprove_event(event_id):
+        event.status = "approved"
+
     db.session.commit()
 
-    return jsonify({"message": "Registered successfully"}), 201
+    return (
+        jsonify({"message": "Registered successfully", "status": registration_status}),
+        201,
+    )
 
 
 @bp.route("/events/<int:event_id>/unregister", methods=["DELETE"])
@@ -63,6 +77,13 @@ def unregister_from_event(event_id):
         return jsonify({"message": "Not registered"}), 404
 
     db.session.delete(registration)
+
+    if not should_autoapprove_event(event_id):
+        event = Event.query.get(event_id)
+        if event:
+            event.status = "pending"
+            db.session.add(event)
+
     db.session.commit()
 
     return jsonify({"message": "Unregistered successfully"}), 200
@@ -87,6 +108,7 @@ def get_my_events():
             "group_size": reg.event.group_size,
             "num_instructors_needed": reg.event.num_instructors_needed,
             "num_representatives_needed": reg.event.num_representatives_needed,
+            "registration_status": reg.status,
         }
         for reg in registrations
     ]
