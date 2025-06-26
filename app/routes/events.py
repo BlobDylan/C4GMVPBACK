@@ -1,7 +1,9 @@
 from flask import Blueprint, request, jsonify
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from datetime import datetime
-from app.models import Event
+from app.models import Event, User, Registration
+from app.utils.decorators import admin_required
+
 
 bp = Blueprint("events", __name__)
 
@@ -44,8 +46,43 @@ def get_registrants(event_id):
             "lastName": reg.user.last_name,
             "email": reg.user.email,
             "phoneNumber": reg.user.phone_number,
+            "role": reg.user.role,
         }
         for reg in event.registrations
     ]
 
     return jsonify(registrants=registrants), 200
+
+
+@bp.route("/events/<int:event_id>/registrations/pending", methods=["GET"])
+@jwt_required()
+@admin_required
+def get_event_pending_registrations(event_id):
+    user_id = get_jwt_identity()
+    user = User.query.get(user_id)
+
+    if not user or user.permission_type not in ['admin', 'super_admin']:
+        return jsonify({"message": "Admin access required"}), 403
+
+    event = Event.query.get(event_id)
+    if not event:
+        return jsonify({"message": "Event not found"}), 404
+
+    registrations = Registration.query.filter_by(event_id=event_id, status='pending').all()
+    pending_registrations = [
+        {
+            "user_id": reg.user_id,
+            "user_email": reg.user.email,
+            "user_role": reg.user.role,
+            "event_id": reg.event_id,
+            "event_title": reg.event.title,
+            "event_date": reg.event.date.isoformat(),
+            "event_channel": reg.event.channel,
+            "event_language": reg.event.language,
+            "event_location": reg.event.location,
+            "status": reg.status,
+        }
+        for reg in registrations
+    ]
+
+    return jsonify(registrations=pending_registrations), 200

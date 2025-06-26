@@ -60,6 +60,7 @@ class Registration(db.Model):
     event_id = db.Column(
         db.Integer, db.ForeignKey("event.id", ondelete="CASCADE"), primary_key=True
     )
-
+    status = db.Column(db.String(20), nullable=False, default="approved")
+    
     user = db.relationship("User", back_populates="registrations")
     event = db.relationship("Event", back_populates="registrations")

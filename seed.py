@@ -1,5 +1,7 @@
 import json
 import requests
+import os
+from app import create_app, db
 
 # === CONFIG ===
 BASE_URL = "http://localhost:5000"  # Change if your server runs elsewhere
@@ -40,10 +42,26 @@ def seed_events(token):
             print(f"  ❌ Failed: {response.status_code} - {response.text}")
 
 
+# === SEED USERS ===
+def seed_users():
+    app = create_app()
+    with app.app_context():
+        db.create_all()
+        with open("example_users.json", "r", encoding="utf-8") as f:
+            users = json.load(f)
+        client = app.test_client()
+        for user in users:
+            response = client.post("/signup", json=user)
+            print(
+                f"Seeding user {user['email']}: {response.status_code} {response.get_json()}"
+            )
+
+
 # === MAIN ===
 if __name__ == "__main__":
     try:
         token = get_access_token()
         seed_events(token)
+        seed_users()
     except Exception as e:
         print(f"Error: {e}")
