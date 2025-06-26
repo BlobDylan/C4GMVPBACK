@@ -1,0 +1,20 @@
+[
+  {
+    "firstName": "Alice",
+    "lastName": "Cohen",
+    "email": "alice.cohen@example.com",
+    "password": "123",
+    "role": "Family Representative",
+    "phoneNumber": "+972501234567",
+    "preferredLanguages": ["Hebrew", "English"]
+  },
+  {
+    "firstName": "David",
+    "lastName": "Levi",
+    "email": "david.levi@example.com",
+    "password": "123",
+    "role": "Guide",
+    "phoneNumber": "+972508765432",
+    "preferredLanguages": ["English"]
+  }
+]
