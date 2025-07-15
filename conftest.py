@@ -39,10 +39,11 @@ def runner(app):
 @pytest.fixture
 def sample_user():
     """Create a sample user for testing."""
+    import uuid
     user = User(
         first_name="Test",
         last_name="User",
-        email="test@example.com",
+        email=f"test_{uuid.uuid4().hex[:8]}@example.com",
         phone_number="123-456-7890",
         permission_type="user",
         role="Family Representative"
@@ -54,10 +55,11 @@ def sample_user():
 @pytest.fixture
 def sample_admin():
     """Create a sample admin user for testing."""
+    import uuid
     admin = User(
         first_name="Admin",
         last_name="User",
-        email="admin@example.com",
+        email=f"admin_{uuid.uuid4().hex[:8]}@example.com",
         phone_number="123-456-7891",
         permission_type="admin",
         role="Guide"
@@ -69,10 +71,11 @@ def sample_admin():
 @pytest.fixture
 def sample_super_admin():
     """Create a sample super admin user for testing."""
+    import uuid
     super_admin = User(
         first_name="Super",
         last_name="Admin",
-        email="superadmin@example.com",
+        email=f"superadmin_{uuid.uuid4().hex[:8]}@example.com",
         phone_number="123-456-7892",
         permission_type="super_admin",
         role="Guide"
@@ -109,7 +112,7 @@ def authenticated_headers(client, sample_user):
         db.session.commit()
         
         response = client.post('/login', json={
-            'email': 'test@example.com',
+            'email': sample_user.email,
             'password': 'password123'
         })
         token = response.json['access_token']
@@ -124,7 +127,7 @@ def admin_headers(client, sample_admin):
         db.session.commit()
         
         response = client.post('/login', json={
-            'email': 'admin@example.com',
+            'email': sample_admin.email,
             'password': 'admin123'
         })
         token = response.json['access_token']
@@ -139,7 +142,7 @@ def super_admin_headers(client, sample_super_admin):
         db.session.commit()
         
         response = client.post('/login', json={
-            'email': 'superadmin@example.com',
+            'email': sample_super_admin.email,
             'password': 'superadmin123'
         })
         token = response.json['access_token']

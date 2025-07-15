@@ -198,7 +198,7 @@ class TestDecorators:
             admin = User(
                 first_name="Admin",
                 last_name="User",
-                email="admin@example.com",
+                email="test_admin@example.com",
                 permission_type="admin"
             )
             admin.set_password("password123")
@@ -224,7 +224,7 @@ class TestDecorators:
             super_admin = User(
                 first_name="Super",
                 last_name="Admin",
-                email="superadmin@example.com",
+                email="test_superadmin@example.com",
                 permission_type="super_admin"
             )
             super_admin.set_password("password123")
@@ -250,7 +250,7 @@ class TestDecorators:
             user = User(
                 first_name="Regular",
                 last_name="User",
-                email="user@example.com",
+                email="test_regular@example.com",
                 permission_type="user"
             )
             user.set_password("password123")
@@ -277,7 +277,7 @@ class TestDecorators:
             admin = User(
                 first_name="Admin",
                 last_name="User",
-                email="admin@example.com",
+                email="test_admin2@example.com",
                 permission_type="admin"
             )
             admin.set_password("password123")

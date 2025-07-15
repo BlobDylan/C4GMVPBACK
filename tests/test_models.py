@@ -58,6 +58,9 @@ class TestUserModel:
             )
             user.set_password("password123")
             
+            db.session.add(user)
+            db.session.commit()
+            
             assert user.permission_type == "user"
             assert user.role == "Family Representative"
             assert user.token_version == 0
@@ -105,6 +108,9 @@ class TestEventModel:
                 location="Zoom",
                 target_audience="Business Sector"
             )
+            
+            db.session.add(event)
+            db.session.commit()
             
             assert event.status == "pending"
             assert event.group_size == 0
@@ -186,6 +192,9 @@ class TestRegistrationModel:
                 user_id=user.id,
                 event_id=event.id
             )
+            
+            db.session.add(registration)
+            db.session.commit()
             
             assert registration.status == "approved"  # default value
     

@@ -8,13 +8,13 @@ from datetime import datetime
 class TestGetCurrentUser:
     """Test cases for /me route."""
     
-    def test_get_current_user_success(self, client, authenticated_headers):
+    def test_get_current_user_success(self, client, authenticated_headers, sample_user):
         """Test getting current user info with valid token."""
         response = client.get('/me', headers=authenticated_headers)
         
         assert response.status_code == 200
         data = response.get_json()
-        assert data['email'] == 'test@example.com'
+        assert data['email'] == sample_user.email
         assert data['firstName'] == 'Test'
         assert data['lastName'] == 'User'
         assert data['permissions'] == 'user'
@@ -37,7 +37,7 @@ class TestGetCurrentUser:
 class TestRegisterForEvent:
     """Test cases for event registration."""
     
-    def test_register_for_event_success(self, client, authenticated_headers, sample_event):
+    def test_register_for_event_success(self, client, authenticated_headers, sample_event, sample_user):
         """Test successful event registration."""
         with client.application.app_context():
             db.session.add(sample_event)
@@ -53,8 +53,9 @@ class TestRegisterForEvent:
         
         # Check registration was created in database
         with client.application.app_context():
+            user = User.query.filter_by(email=sample_user.email).first()
             registration = Registration.query.filter_by(
-                user_id=1,  # sample user id
+                user_id=user.id,
                 event_id=event_id
             ).first()
             assert registration is not None
@@ -132,7 +133,7 @@ class TestRegisterForEvent:
 class TestUnregisterFromEvent:
     """Test cases for event unregistration."""
     
-    def test_unregister_from_event_success(self, client, authenticated_headers, sample_event):
+    def test_unregister_from_event_success(self, client, authenticated_headers, sample_event, sample_user):
         """Test successful event unregistration."""
         with client.application.app_context():
             db.session.add(sample_event)
@@ -151,8 +152,9 @@ class TestUnregisterFromEvent:
         
         # Check registration was removed from database
         with client.application.app_context():
+            user = User.query.filter_by(email=sample_user.email).first()
             registration = Registration.query.filter_by(
-                user_id=1,
+                user_id=user.id,
                 event_id=event_id
             ).first()
             assert registration is None

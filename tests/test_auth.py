@@ -89,9 +89,10 @@ class TestLoginRoute:
         with client.application.app_context():
             db.session.add(sample_user)
             db.session.commit()
+            user_email = sample_user.email  # Capture email while session is active
         
         response = client.post('/login', json={
-            'email': 'test@example.com',
+            'email': user_email,
             'password': 'password123'
         })
         
@@ -99,7 +100,7 @@ class TestLoginRoute:
         data = response.get_json()
         assert 'access_token' in data
         assert 'user' in data
-        assert data['user']['email'] == 'test@example.com'
+        assert data['user']['email'] == user_email
         assert data['user']['firstName'] == 'Test'
         assert data['user']['lastName'] == 'User'
         assert data['user']['permissions'] == 'user'
@@ -143,8 +144,14 @@ class TestLoginRoute:
 class TestLogoutRoute:
     """Test cases for logout route."""
     
-    def test_successful_logout(self, client, authenticated_headers):
+    def test_successful_logout(self, client, authenticated_headers, sample_user):
         """Test successful user logout."""
+        # Capture email while sample_user is accessible
+        with client.application.app_context():
+            db.session.add(sample_user)
+            db.session.commit()
+            user_email = sample_user.email
+        
         response = client.post('/logout', headers=authenticated_headers)
         
         assert response.status_code == 200
@@ -153,7 +160,7 @@ class TestLogoutRoute:
         
         # Verify token version was incremented
         with client.application.app_context():
-            user = User.query.filter_by(email='test@example.com').first()
+            user = User.query.filter_by(email=user_email).first()
             assert user.token_version == 1
     
     def test_logout_without_token(self, client):

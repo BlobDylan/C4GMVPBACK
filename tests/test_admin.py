@@ -106,7 +106,8 @@ class TestUpdateEvent:
         
         update_data = {
             'title': 'Updated Event Title',
-            'group_size': 20
+            'group_size': 20,
+            'group_description': 'Updated description'
         }
         
         response = client.put(f'/admin/edit/{event_id}', json=update_data, headers=admin_headers)
