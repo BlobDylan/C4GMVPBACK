@@ -21,7 +21,7 @@ def signup():
     role = data.get("role")
     if role and role not in ROLE_OPTIONS:
         return jsonify({"message": "Invalid role"}), 400
-    
+
     user = User(
         first_name=data["firstName"],
         last_name=data["lastName"],
@@ -30,10 +30,7 @@ def signup():
         preferredLanguages=(
             str(data["preferredLanguages"]) if "preferredLanguages" in data else ""
         ),
-<<<<<<< HEAD
-=======
         role=role,
->>>>>>> 2567e62635875ebdfa52a956ba371e02e2089f8c
     )
     user.set_password(data["password"])
 
