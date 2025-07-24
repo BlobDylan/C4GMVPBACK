@@ -43,6 +43,7 @@ class Event(db.Model):
     target_audience = db.Column(db.String(50), nullable=False)
     group_description = db.Column(db.Text, nullable=True)
     additional_notes = db.Column(db.Text, nullable=True)
+    contact_phone_number = db.Column(db.String(20), nullable=True)
 
     registrations = db.relationship(
         "Registration",
@@ -61,6 +62,6 @@ class Registration(db.Model):
         db.Integer, db.ForeignKey("event.id", ondelete="CASCADE"), primary_key=True
     )
     status = db.Column(db.String(20), nullable=False, default="approved")
-    
+
     user = db.relationship("User", back_populates="registrations")
     event = db.relationship("Event", back_populates="registrations")

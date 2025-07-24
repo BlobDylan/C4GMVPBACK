@@ -11,7 +11,8 @@
     "num_representatives_needed": 2,
     "target_audience": "Universities",
     "group_description": "A group of university students and faculty members who are passionate about social justice.",
-    "additional_notes": "Please bring your own materials."
+    "additional_notes": "Please bring your own materials.",
+    "contact_phone_number": "123-456-7890"
   },
   {
     "title": "American Donations Event",
@@ -25,7 +26,8 @@
     "num_representatives_needed": 1,
     "target_audience": "Donors",
     "group_description": "A group of philanthropists and supporters from the United States.",
-    "additional_notes": "Please RSVP by June 1st."
+    "additional_notes": "Please RSVP by June 1st.",
+    "contact_phone_number": "123-456-7890"
   },
   {
     "title": "High School awareness meeting",
