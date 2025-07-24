@@ -27,6 +27,7 @@ def get_events():
             "target_audience": event.target_audience,
             "group_description": event.group_description,
             "additional_notes": event.additional_notes,
+            "contact_phone_number": event.contact_phone_number,
         }
         for event in events
     ]
@@ -61,14 +62,16 @@ def get_event_pending_registrations(event_id):
     user_id = get_jwt_identity()
     user = User.query.get(user_id)
 
-    if not user or user.permission_type not in ['admin', 'super_admin']:
+    if not user or user.permission_type not in ["admin", "super_admin"]:
         return jsonify({"message": "Admin access required"}), 403
 
     event = Event.query.get(event_id)
     if not event:
         return jsonify({"message": "Event not found"}), 404
 
-    registrations = Registration.query.filter_by(event_id=event_id, status='pending').all()
+    registrations = Registration.query.filter_by(
+        event_id=event_id, status="pending"
+    ).all()
     pending_registrations = [
         {
             "user_id": reg.user_id,

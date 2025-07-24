@@ -43,6 +43,7 @@ class Event(db.Model):
     target_audience = db.Column(db.String(50), nullable=False)
     group_description = db.Column(db.Text, nullable=True)
     additional_notes = db.Column(db.Text, nullable=True)
+    contact_phone_number = db.Column(db.String(20), nullable=True)
 
     registrations = db.relationship(
         "Registration",

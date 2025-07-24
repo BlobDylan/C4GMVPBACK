@@ -77,6 +77,7 @@ def create_event():
         num_representatives_needed=data.get("num_representatives_needed", 0),
         group_description=data.get("group_description", ""),
         additional_notes=data.get("additional_notes", ""),
+        contact_phone_number=data.get("contact_phone_number", ""),
         status="pending",
     )
     db.session.add(event)
@@ -104,6 +105,7 @@ def create_event():
                     "num_representatives_needed": event.num_representatives_needed,
                     "group_description": event.group_description,
                     "additional_notes": event.additional_notes,
+                    "contact_phone_number": event.contact_phone_number,
                 },
             }
         ),
@@ -155,6 +157,8 @@ def update_event(event_id):
         event.additional_notes = data["additional_notes"]
     if "status" in data:
         event.status = data["status"]
+    if "contact_phone_number" in data:
+        event.contact_phone_number = data["contact_phone_number"]
 
     try:
         db.session.commit()
@@ -263,6 +267,7 @@ def set_user_permission(user_id_to_change):
             500,
         )
 
+
 @bp.route("/admin/pending-registrations", methods=["GET"])
 @jwt_required()
 @admin_required
@@ -281,11 +286,14 @@ def get_pending_registrations():
     ]
     return jsonify(registrations=registrations_list), 200
 
+
 @bp.route("/admin/approve-registration/<int:event_id>/<int:user_id>", methods=["PUT"])
 @jwt_required()
 @admin_required
 def approve_registration(event_id, user_id):
-    registration = Registration.query.filter_by(event_id=event_id, user_id=user_id).first()
+    registration = Registration.query.filter_by(
+        event_id=event_id, user_id=user_id
+    ).first()
     if not registration:
         return jsonify({"message": "Registration not found"}), 404
 
@@ -298,11 +306,14 @@ def approve_registration(event_id, user_id):
 
     return jsonify({"message": "Registration approved"}), 200
 
+
 @bp.route("/admin/reject-registration/<int:event_id>/<int:user_id>", methods=["DELETE"])
 @jwt_required()
 @admin_required
 def reject_registration(event_id, user_id):
-    registration = Registration.query.filter_by(event_id=event_id, user_id=user_id).first()
+    registration = Registration.query.filter_by(
+        event_id=event_id, user_id=user_id
+    ).first()
     if not registration:
         return jsonify({"message": "Registration not found"}), 404
 

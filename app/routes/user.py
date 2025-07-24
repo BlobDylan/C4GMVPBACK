@@ -109,6 +109,7 @@ def get_my_events():
             "num_instructors_needed": reg.event.num_instructors_needed,
             "num_representatives_needed": reg.event.num_representatives_needed,
             "registration_status": reg.status,
+            "contact_phone_number": reg.event.contact_phone_number,
         }
         for reg in registrations
     ]
