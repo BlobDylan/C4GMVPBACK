@@ -21,7 +21,7 @@ def signup():
     role = data.get("role")
     if role and role not in ROLE_OPTIONS:
         return jsonify({"message": "Invalid role"}), 400
-    
+
     user = User(
         first_name=data["firstName"],
         last_name=data["lastName"],
