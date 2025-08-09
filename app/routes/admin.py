@@ -125,6 +125,8 @@ def update_event(event_id):
 
     if "title" in data:
         event.title = data["title"]
+    if "description" in data:
+        event.description = data["description"]
     if "date" in data:
         try:
             event.date = datetime.fromisoformat(data["date"])
