@@ -5,3 +5,6 @@ Flask-Cors
 python-dotenv
 Werkzeug
 requests
+pytest
+pytest-flask
+pytest-cov
