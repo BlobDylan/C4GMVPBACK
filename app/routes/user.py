@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.models import User, Event, Registration
 from app import db
+from datetime import datetime, timedelta
 from app.utils.autoapprove import should_autoapprove_event
 
 bp = Blueprint("user", __name__)
@@ -92,8 +93,13 @@ def unregister_from_event(event_id):
 @bp.route("/me/events", methods=["GET"])
 @jwt_required()
 def get_my_events():
+    yesterday = datetime.now() - timedelta(days=1)
     user_id = get_jwt_identity()
-    registrations = Registration.query.filter_by(user_id=user_id).all()
+    registrations = (
+        Registration.query.filter_by(user_id=user_id)
+        .filter(Event.date >= yesterday)
+        .all()
+    )
 
     events = [
         {

@@ -1,8 +1,10 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from app.models import User
-from app import db
+from app import db, mail
 from app.constants import ROLE_OPTIONS
+from flask_mail import Message
+import secrets
 
 bp = Blueprint("auth", __name__)
 
@@ -65,6 +67,34 @@ def login():
                     "permissions": user.permission_type,
                     "role": user.role,
                 },
+            }
+        ),
+        200,
+    )
+
+
+@bp.route("/forgot_password", methods=["POST"])
+def forgot_password():
+    data = request.get_json()
+    email = data.get("email")
+    user = User.query.filter_by(email=email).first()
+
+    if user:
+        temp_password = secrets.token_urlsafe(8)
+        user.set_password(temp_password)
+        db.session.commit()
+
+        msg = Message(
+            "Your new password",
+            recipients=[email],
+            body=f"Your temporary password is: {temp_password}",
+        )
+        mail.send(msg)
+
+    return (
+        jsonify(
+            {
+                "message": "If your email is registered, you will receive a new password shortly."
             }
         ),
         200,
