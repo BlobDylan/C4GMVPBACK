@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from datetime import datetime
+from datetime import datetime, timedelta
 from app.models import Event, User, Registration
 from app.utils.decorators import admin_required
 
@@ -10,7 +10,8 @@ bp = Blueprint("events", __name__)
 
 @bp.route("/events", methods=["GET"])
 def get_events():
-    events = Event.query.all()
+    yesterday = datetime.now() - timedelta(days=1)
+    events = Event.query.filter(Event.date >= yesterday).all()
     events_list = [
         {
             "id": event.id,
