@@ -5,4 +5,5 @@ instance/
 *.db
 node_modules/
 package.json
-package-lock.json
+package-lock.jsonvenv/
+*.zip
