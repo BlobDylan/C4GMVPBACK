@@ -7,7 +7,7 @@ from sqlalchemy.engine import Engine
 from flask_cors import CORS
 from dotenv import load_dotenv
 import os
-from flask_mail import Mail
+from flask_mailman import Mail
 
 db = SQLAlchemy()
 jwt = JWTManager()
