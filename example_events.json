@@ -2,7 +2,7 @@
   {
     "title": "Protest in Hostages Square",
     "description": "Join us for a peaceful protest in Hostages Square to raise awareness about the current situation.",
-    "date": "2025-05-28T09:00:00",
+    "date": "2025-09-28T09:00:00",
     "channel": "Hostages Square",
     "language": "Hebrew",
     "location": "Hostages Square",
@@ -17,7 +17,7 @@
   {
     "title": "American Donations Event",
     "description": "A fundraising event to support our cause in the United States.",
-    "date": "2025-06-01T10:00:00",
+    "date": "2025-10-01T10:00:00",
     "channel": "Donations",
     "language": "Hebrew",
     "location": "Offices",
@@ -32,7 +32,7 @@
   {
     "title": "High School awareness meeting",
     "description": "A meeting to discuss community issues and gather feedback.",
-    "date": "2025-05-29T18:00:00",
+    "date": "2025-09-29T18:00:00",
     "channel": "Virtual",
     "language": "English",
     "location": "Zoom",
@@ -41,12 +41,13 @@
     "num_representatives_needed": 2,
     "target_audience": "High Schools",
     "group_description": "A diverse group of high school students and teachers interested in community engagement.",
+    "contact_phone_number": "+972-3-1234567",
     "additional_notes": "Light refreshments will be provided."
   },
   {
     "title": "Business Sector Meeting",
     "description": "A meeting to discuss business sector issues and awareness.",
-    "date": "2025-05-29T18:00:00",
+    "date": "2025-09-29T18:00:00",
     "channel": "Business Sector",
     "language": "English",
     "location": "Center",
@@ -55,12 +56,13 @@
     "num_representatives_needed": 2,
     "target_audience": "Business Sector",
     "group_description": "A group of business professionals and entrepreneurs focused on community development.",
+    "contact_phone_number": "+972-3-1234567",
     "additional_notes": "Please bring your business cards."
   },
   {
     "title": "Army Solidarity Session",
     "description": "An interactive session to support soldiers and raise awareness of current needs.",
-    "date": "2025-06-02T14:00:00",
+    "date": "2025-11-02T14:00:00",
     "channel": "Virtual",
     "language": "English",
     "location": "Zoom",
@@ -69,12 +71,13 @@
     "num_representatives_needed": 2,
     "target_audience": "Army",
     "group_description": "Volunteers and speakers aiming to support active and reserve IDF personnel.",
+    "contact_phone_number": "+972-3-1234567",
     "additional_notes": "Bring headphones and a stable internet connection."
   },
   {
     "title": "Jerusalem Unity Gathering",
     "description": "A large community event promoting unity across various sectors.",
-    "date": "2025-06-03T17:30:00",
+    "date": "2025-09-03T17:30:00",
     "channel": "Religious Zionism",
     "language": "Hebrew",
     "location": "Jerusalem",
@@ -83,12 +86,13 @@
     "num_representatives_needed": 3,
     "target_audience": "Religious Sector",
     "group_description": "Community members and leaders from across Jerusalem.",
+    "contact_phone_number": "+972-3-1234567",
     "additional_notes": "Dress modestly and bring flags."
   },
   {
     "title": "Shfela Business Networking",
     "description": "A networking session for business owners to collaborate and engage.",
-    "date": "2025-06-04T11:00:00",
+    "date": "2025-09-04T11:00:00",
     "channel": "Business Sector",
     "language": "Hebrew",
     "location": "Shfela",
@@ -97,12 +101,13 @@
     "num_representatives_needed": 1,
     "target_audience": "Business Sector",
     "group_description": "Entrepreneurs and investors from the local community.",
+    "contact_phone_number": "+972-3-1234567",
     "additional_notes": "Bring promotional material for your business."
   },
   {
     "title": "South Region Awareness Campaign",
     "description": "Raising awareness through storytelling and community dialogue.",
-    "date": "2025-06-05T16:00:00",
+    "date": "2025-09-05T16:00:00",
     "channel": "Hostages Square",
     "language": "Arabic",
     "location": "South",
@@ -111,12 +116,13 @@
     "num_representatives_needed": 2,
     "target_audience": "High Schools",
     "group_description": "Students and educators from the southern region.",
+    "contact_phone_number": "+972-3-1234567",
     "additional_notes": "Please arrive 15 minutes early for registration."
   },
   {
     "title": "Virtual Hebrew Session for Donors",
     "description": "An online session to brief donors on progress and future plans.",
-    "date": "2025-06-06T19:00:00",
+    "date": "2025-09-06T19:00:00",
     "channel": "Donations",
     "language": "Hebrew",
     "location": "Zoom",
@@ -125,12 +131,13 @@
     "num_representatives_needed": 1,
     "target_audience": "Donors",
     "group_description": "Current and prospective donors interested in updates and financial transparency.",
+    "contact_phone_number": "+972-3-1234567",
     "additional_notes": "Session will be recorded for future access."
   },
   {
     "title": "Across the Green Line University Panel",
     "description": "A panel discussion on cross-border issues affecting students.",
-    "date": "2025-06-07T12:00:00",
+    "date": "2025-10-07T12:00:00",
     "channel": "Virtual",
     "language": "English",
     "location": "Across the green line",
@@ -139,12 +146,13 @@
     "num_representatives_needed": 1,
     "target_audience": "Universities",
     "group_description": "Students and faculty from different universities discussing key concerns.",
+    "contact_phone_number": "+972-3-1234567",
     "additional_notes": "Questions can be submitted in advance."
   },
   {
     "title": "North Sector Business Breakfast",
     "description": "Early morning meetup for business leaders in the northern region.",
-    "date": "2025-06-08T08:00:00",
+    "date": "2025-10-08T08:00:00",
     "channel": "Business Sector",
     "language": "Russian",
     "location": "North",
@@ -153,12 +161,13 @@
     "num_representatives_needed": 2,
     "target_audience": "Business Sector",
     "group_description": "Business professionals aiming to expand their network.",
+    "contact_phone_number": "+972-3-1234567",
     "additional_notes": "Coffee and snacks will be served."
   },
   {
     "title": "French Session with Religious Leaders",
     "description": "A French-language discussion with religious Zionist leaders.",
-    "date": "2025-06-09T13:00:00",
+    "date": "2025-10-09T13:00:00",
     "channel": "Religious Zionism",
     "language": "French",
     "location": "Jerusalem",
@@ -167,12 +176,13 @@
     "num_representatives_needed": 1,
     "target_audience": "Religious Sector",
     "group_description": "Community members and leaders from French-speaking backgrounds.",
+    "contact_phone_number": "+972-3-1234567",
     "additional_notes": "Simultaneous translation available upon request."
   },
   {
     "title": "Spanish-Language Donor Briefing",
     "description": "An exclusive update for Spanish-speaking donors.",
-    "date": "2025-06-10T15:00:00",
+    "date": "2025-10-10T15:00:00",
     "channel": "Donations",
     "language": "Spanish",
     "location": "Offices",
@@ -181,12 +191,13 @@
     "num_representatives_needed": 1,
     "target_audience": "Donors",
     "group_description": "Supporters and donors from Latin America and Spain.",
+    "contact_phone_number": "+972-3-1234567",
     "additional_notes": "Please confirm attendance by June 8th."
   },
   {
     "title": "Center Region High School Townhall",
     "description": "Townhall discussion for high school students on social activism.",
-    "date": "2025-06-11T10:30:00",
+    "date": "2025-10-11T10:30:00",
     "channel": "Hostages Square",
     "language": "Hebrew",
     "location": "Center",
@@ -195,12 +206,13 @@
     "num_representatives_needed": 3,
     "target_audience": "High Schools",
     "group_description": "Students, teachers, and youth coordinators from the central region.",
+    "contact_phone_number": "+972-3-1234567",
     "additional_notes": "Parental consent required for students under 18."
   },
   {
     "title": "Religious Youth Virtual Rally",
     "description": "A motivational and spiritual rally for religious youth.",
-    "date": "2025-06-12T20:00:00",
+    "date": "2025-10-12T20:00:00",
     "channel": "Religious Zionism",
     "language": "Other",
     "location": "Zoom",
@@ -209,6 +221,7 @@
     "num_representatives_needed": 2,
     "target_audience": "Religious Sector",
     "group_description": "Young leaders and educators fostering religious values.",
+    "contact_phone_number": "+972-3-1234567",
     "additional_notes": "Event link will be emailed after registration."
   }
 ]
