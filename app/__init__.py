@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 import os
 from flask_mail import Mail
 
+
 db = SQLAlchemy()
 jwt = JWTManager()
 mail = Mail()
